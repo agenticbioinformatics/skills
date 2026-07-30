@@ -1,6 +1,6 @@
 ---
 name: hackathon-brainstorm
-description: Use at the very start of a bioinformatics hackathon, before any code is written, to turn a rough problem statement into a scoped, reviewed pipeline plan. Triggers on phrases like "help me brainstorm for this hackathon", "what should we build for this problem", "generate research hypotheses", "design a pipeline for this dataset", "I have 3 days and this problem, what can we do". Acts as a senior bioinformatician to generate and score up to ten research hypotheses on scientific rigour, data availability, and 3-day feasibility; merges the survivors into one modular pipeline; subjects that pipeline to up to five rounds of professorial review; then writes README.md and PROMPTS.md so pipeline development can start immediately.
+description: Use at the very start of a bioinformatics hackathon, before any code is written, to turn a rough problem statement into a scoped, reviewed pipeline plan. Triggers on phrases like "help me brainstorm for this hackathon", "what should we build for this problem", "generate research hypotheses", "design a pipeline for this dataset", "I have 3 days and this problem, what can we do". Acts as a senior bioinformatician to generate and score up to ten research hypotheses on scientific rigour, data availability, and 3-day feasibility; merges the survivors into one modular pipeline; subjects that pipeline to up to five rounds of professorial review; then writes README.md, requirements.txt, and PROMPTS.md so pipeline development can start immediately.
 ---
 
 # Bioinformatics Hackathon Brainstorming
@@ -12,8 +12,9 @@ unless the user explicitly asks; the output is the plan (README.md and
 PROMPTS.md), which later drives implementation.
 
 Work through the phases below in order, thinking step by step at each one.
-Keep the whole session inside the conversation until Phases 6 and 7, which
-are the only phases that write files.
+Keep the whole session inside the conversation until Phase 7, which writes
+README.md and requirements.txt, and Phase 8, which writes PROMPTS.md —
+these are the only phases that write files.
 
 ## Phase 0 — Get the problem
 
@@ -152,7 +153,7 @@ Keep a short running changelog (iteration number → what changed) so the
 evolution from the first draft to the final pipeline stays visible to the
 user.
 
-## Phase 7 — Write README.md
+## Phase 7 — Write README.md and requirements.txt
 
 Write (or propose, if a README already exists — check first and confirm
 before overwriting) a `README.md` for the project containing:
@@ -172,6 +173,26 @@ before overwriting) a `README.md` for the project containing:
    an end-to-end integration run, and, where applicable, validation
    against a known ground truth or published benchmark to catch pipeline
    bugs before trusting any biological conclusion.
+
+Alongside the README, write (or propose, if one already exists — check
+first and confirm before overwriting) a `requirements.txt` listing the
+external libraries the pipeline from Phase 6 will need:
+
+- Walk the final stage list and note, per stage, which third-party
+  packages a reasonable implementation would import (e.g. `biopython`,
+  `pysam`, `scikit-learn`, `pandas`, `numpy`, `scipy`) — don't include
+  the language's standard library.
+- Group entries with a `# stage name` comment above the packages that
+  stage needs, so the file stays traceable back to the pipeline like the
+  README's pipeline overview.
+- Pin a minimum version (`package>=x.y`) only where a specific feature or
+  known compatibility issue requires it; otherwise leave versions
+  unpinned so the team isn't blocked resolving conflicts mid-hackathon.
+- If the pipeline mixes languages (e.g. Python + R), still produce a
+  single `requirements.txt` for the Python/pip dependencies, and call out
+  non-pip dependencies (R packages, CLI tools like `samtools`, conda-only
+  packages) in a short "Non-pip dependencies" note at the end of the file
+  or in the README's development plan — don't silently drop them.
 
 ## Phase 8 — Write PROMPTS.md
 
