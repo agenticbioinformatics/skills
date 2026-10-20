@@ -1,5 +1,5 @@
 ---
-name: ai-code-review
+name: python-prototype-expert
 description: Review AI-generated Python or Bash code by proving whether it actually does what the task asked: run it, probe it with independent tests, check that its tests can fail, and report verified findings.
 ---
 
